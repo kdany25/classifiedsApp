@@ -8,10 +8,10 @@ import {
 	TextInput,
 	Pressable,
 } from "react-native";
-import { styles } from "../LoginScreen.style";
+import { styles } from "./LoginScreen.style";
 import { SocialIcon } from "react-native-elements";
 
-const LoginScreen = () => {
+const LoginScreen: React.FC = () => {
 	const navigation = useNavigation();
 	useLayoutEffect(() => {
 		navigation.setOptions({
@@ -44,7 +44,10 @@ const LoginScreen = () => {
 			</View>
 
 			<View style={{ alignItems: "center" }}>
-				<Pressable style={styles.button}>
+				<Pressable
+					style={styles.button}
+					onPress={() => navigation.navigate("Home")}
+				>
 					<Text style={styles.text}>{"Sign in"}</Text>
 				</Pressable>
 			</View>
