@@ -1,7 +1,7 @@
 import { TailwindProvider } from "tailwindcss-react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "./screens/LoginScreen";
+import LoginScreen from "./screens/Login/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -10,7 +10,14 @@ export default function App() {
 		<NavigationContainer>
 			<TailwindProvider>
 				<Stack.Navigator>
-					<Stack.Screen name="Login" component={LoginScreen} />
+					<Stack.Screen
+						name="Login"
+						component={LoginScreen}
+						options={{
+							presentation: "modal",
+							headerShown: false,
+						}}
+					/>
 				</Stack.Navigator>
 			</TailwindProvider>
 		</NavigationContainer>
