@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const styles = StyleSheet.create<any>({
 	main: {
 		flex: 1,
 		position: "relative",
