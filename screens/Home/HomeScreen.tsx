@@ -1,23 +1,27 @@
 import {
 	View,
 	Text,
-	ImageBackground,
 	SafeAreaView,
 	TextInput,
-	Pressable,
 	FlatList,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styles } from "./Home.styles";
 import { MagnifyingGlassIcon } from "react-native-heroicons/solid";
 import Product from "../components/product/Product";
-import {
-	productProps,
-	ItemProps,
-	DATA,
-} from "../components/product/product.interface";
+import { productProps } from "../components/product/product.interface";
+import { Iproduct } from "./Home.interface";
+import axios, { AxiosResponse } from "axios";
 
 const HomeScreen: React.FC = () => {
+	const [products, setProducts] = useState<Iproduct[]>([]);
+	useEffect(() => {
+		axios
+			.get<Iproduct[]>("http://localhost:7001/api/product")
+			.then((response: AxiosResponse) => {
+				setProducts(response.data);
+			});
+	}, []);
 	const renderItem = ({ item }: { item: productProps }) => {
 		return (
 			<Product
@@ -45,7 +49,7 @@ const HomeScreen: React.FC = () => {
 			</View>
 			<View>
 				<FlatList
-					data={DATA}
+					data={products}
 					renderItem={renderItem}
 					keyExtractor={(item) => item._id}
 					numColumns={2}
