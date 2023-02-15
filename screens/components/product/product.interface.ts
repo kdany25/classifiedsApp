@@ -9,7 +9,8 @@ export interface productProps {
 
 export interface ItemProps {
 	item: productProps;
-	onPress?: () => void;
+	onPress: () => void;
+
 }
 
 export const DATA: productProps[] = [
