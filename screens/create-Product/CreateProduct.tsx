@@ -14,7 +14,7 @@ const CreateProduct: React.FC = () => {
 	};
 	const onSave = () => {
 		axios.post<InewProduct>("http://localhost:7001/api/product", inputs);
-		console.log('here')
+
 	};
 	return (
 		<SafeAreaView>
