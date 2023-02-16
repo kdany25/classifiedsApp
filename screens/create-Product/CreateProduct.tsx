@@ -46,14 +46,19 @@ const CreateProduct: React.FC = () => {
 		});
 	};
 	const onSave = () => {
-		axios.post<InewProduct>("http://localhost:7001/api/product", inputs);
+		axios.post<InewProduct>(
+			"https://classfiedbackend.herokuapp.com/api/product",
+			inputs
+		);
 	};
 	useEffect(() => {
 		handleChange("category", value);
 	}, [value]);
 	useEffect(() => {
 		axios
-			.get<Icategory[]>("http://localhost:7001/api/category")
+			.get<Icategory[]>(
+				"https://classfiedbackend.herokuapp.com/api/category"
+			)
 			.then((response: AxiosResponse) => {
 				setCategories(response.data);
 			});

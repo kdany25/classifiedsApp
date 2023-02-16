@@ -29,7 +29,7 @@ const HomeScreen: React.FC = () => {
 	const navigation = useNavigation();
 	useEffect(() => {
 		axios
-			.get<Iproduct[]>("http://localhost:7001/api/product")
+			.get<Iproduct[]>("https://classfiedbackend.herokuapp.com/api/product")
 			.then((response: AxiosResponse) => {
 				setProducts(response.data);
 			});
