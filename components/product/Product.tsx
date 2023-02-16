@@ -14,6 +14,7 @@ const Product: React.FC<productProps> = ({
 	short_description,
 	image,
 	manufacture_date,
+	category
 }) => {
 	const navigation = useNavigation();
 	return (
@@ -26,6 +27,7 @@ const Product: React.FC<productProps> = ({
 					short_description,
 					image,
 					manufacture_date,
+					category
 				})
 			}
 		>

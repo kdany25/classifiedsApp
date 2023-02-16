@@ -5,6 +5,7 @@ export interface productProps {
 	short_description: string;
 	image: string;
 	manufacture_date: string;
+	category: string
 }
 
 export interface ItemProps {

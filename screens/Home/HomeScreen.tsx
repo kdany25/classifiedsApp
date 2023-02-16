@@ -35,6 +35,7 @@ const HomeScreen: React.FC = () => {
 				short_description={item.short_description}
 				image={item.image}
 				manufacture_date={item.manufacture_date}
+				category={item.category}
 			/>
 		);
 	};
