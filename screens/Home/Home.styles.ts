@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
 	},
 	list: {
 		alignItems: "center",
+		paddingVertical: 5,
 	},
 	filterIcon: {
 		backgroundColor: "#ff833c",

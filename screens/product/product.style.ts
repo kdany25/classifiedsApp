@@ -3,37 +3,49 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
 	banner: {
 		position: "relative",
-		marginTop: 30,
+		marginTop: "10%",
+		height: "40%",
 	},
 	image: {
 		width: "100%",
-		height: 300,
-		padding: 4,
-		backgroundColor: "#000",
+		height: '100%',
 	},
 	backButton: {
 		position: "absolute",
-		top: 14,
-		left: 5,
-		padding: 2,
+		left: '5%',
+		padding: 5,
 		borderRadius: 50,
-		backgroundColor: "#fff",
+		backgroundColor: "#ff833c",
+		top: "-10%",
+	},
+	shareButton: {
+		position: "absolute",
+		left: "90%",
+		top: "-10%",
+		padding: 5,
+		borderRadius: 50,
+		backgroundColor: "#ff833c",
 	},
 	titleRow: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		width: "90%",
-		margin: 5,
+		paddingVertical: "3%",
 	},
 	title: {
-		fontSize: 24,
+		fontSize: 15,
 		fontWeight: "bold",
 	},
 	price: {
 		fontWeight: "bold",
-		fontSize: 24,
+		fontSize: 15,
 	},
 	shortDes: {
-		color: "#a6a5a2",
+		color: "#2e2d2d",
+		marginTop: 10,
+	},
+	rating: {
+		flexDirection: "row",
+		alignItems: "center",
+		paddingVertical: "2%",
 	},
 });
