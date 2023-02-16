@@ -8,22 +8,46 @@ export const styles = StyleSheet.create({
 		paddingTop: 5,
 	},
 	titleLogo: {
-		fontSize: 24,
+		fontSize: 20,
 		fontWeight: "bold",
-		marginTop: 5,
 	},
 	searchBarContainer: {
 		flexDirection: "row",
 		alignItems: "center",
 		paddingBottom: 2,
-		margin: 4,
-    width: '90%',
-    justifyContent: 'center'
+		width: "100%",
+		justifyContent: "space-between",
+		paddingHorizontal: "3%",
 	},
 	searchInput: {
 		flexDirection: "row",
-		flex: 1,
-		backgroundColor: "#e6e8eb",
+		backgroundColor: "#f7e8df",
 		padding: 10,
+		borderRadius: 10,
+	},
+	list: {
+		alignItems: "center",
+	},
+	filterIcon: {
+		backgroundColor: "#ff833c",
+		padding: 6,
+		borderRadius: 5,
+	},
+	input: {
+		width: "80%",
+		borderRadius: 10,
+	},
+	avatarImage: {
+		borderRadius: 10,
+		height: 40,
+		width: 40,
+	},
+	avatar: {
+		position: "absolute",
+		left: "85%",
+		top: "15%",
+	},
+	header: {
+		position: "relative",
 	},
 });

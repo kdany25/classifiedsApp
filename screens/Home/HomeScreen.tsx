@@ -4,14 +4,18 @@ import {
 	SafeAreaView,
 	TextInput,
 	FlatList,
+	Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { styles } from "./Home.styles";
-import { MagnifyingGlassIcon } from "react-native-heroicons/solid";
-import Product from "../components/product/Product";
-import { productProps } from "../components/product/product.interface";
+import {
+	MagnifyingGlassIcon,
+	AdjustmentsHorizontalIcon,
+} from "react-native-heroicons/solid";
+import { productProps } from "../../components/product/product.interface";
 import { Iproduct } from "./Home.interface";
 import axios, { AxiosResponse } from "axios";
+import Product from "../../components/product/Product";
 
 const HomeScreen: React.FC = () => {
 	const [products, setProducts] = useState<Iproduct[]>([]);
@@ -36,18 +40,35 @@ const HomeScreen: React.FC = () => {
 	};
 	return (
 		<SafeAreaView style={styles.main}>
-			<View>
-				<Text style={styles.titleLogo}>Danube</Text>
+			<View style={styles.header}>
+				<View
+					style={{
+						margin: 5,
+					}}
+				>
+					<Text style={styles.titleLogo}>Shop Your</Text>
+					<Text style={styles.titleLogo}>Favourite Device.</Text>
+				</View>
+				<View style={styles.avatar}>
+					<Image
+						source={{
+							uri: "https://i.ibb.co/Wn7zMVf/Screen-Shot-2023-02-16-at-09-07-33.png",
+						}}
+						style={styles.avatarImage}
+					></Image>
+				</View>
 			</View>
+
 			<View style={styles.searchBarContainer}>
 				<View style={styles.searchInput}>
-					<MagnifyingGlassIcon color="gray" size={20} />
-
-					<TextInput placeholder="Search" keyboardType="default" />
+					<MagnifyingGlassIcon color="#ff833c" size={20} />
+					<TextInput placeholder="Search" style={styles.input} />
 				</View>
-				{/* <AdjustmentsIcon color="#00CCBB" /> */}
+				<View style={styles.filterIcon}>
+					<AdjustmentsHorizontalIcon color="#fff" />
+				</View>
 			</View>
-			<View>
+			<View style={styles.list}>
 				<FlatList
 					data={products}
 					renderItem={renderItem}
