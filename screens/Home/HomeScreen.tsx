@@ -5,6 +5,7 @@ import {
 	TextInput,
 	FlatList,
 	Image,
+	TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { styles } from "./Home.styles";
@@ -12,13 +13,20 @@ import {
 	MagnifyingGlassIcon,
 	AdjustmentsHorizontalIcon,
 } from "react-native-heroicons/solid";
+import {
+	HomeIcon,
+	PlusCircleIcon,
+	UserCircleIcon,
+} from "react-native-heroicons/outline";
 import { productProps } from "../../components/product/product.interface";
 import { Iproduct } from "./Home.interface";
 import axios, { AxiosResponse } from "axios";
 import Product from "../../components/product/Product";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen: React.FC = () => {
 	const [products, setProducts] = useState<Iproduct[]>([]);
+	const navigation = useNavigation();
 	useEffect(() => {
 		axios
 			.get<Iproduct[]>("http://localhost:7001/api/product")
@@ -76,6 +84,62 @@ const HomeScreen: React.FC = () => {
 					keyExtractor={(item) => item._id}
 					numColumns={2}
 				/>
+			</View>
+			<View
+				style={{
+					position: "absolute",
+					bottom: "0%",
+					width: "100%",
+					height: 80,
+					backgroundColor: "#fff",
+					borderTopWidth: 1,
+					borderColor: "#faddcf",
+				}}
+			>
+				<View
+					style={{
+						flexDirection: "row",
+						justifyContent: "space-between",
+						paddingHorizontal: "5%",
+						marginTop: "2%",
+					}}
+				>
+					<TouchableOpacity
+						style={{
+							flexDirection: "column",
+							alignItems: "center",
+						}}
+					>
+						<HomeIcon color="#ff833c" />
+						<Text style={{ fontSize: 10, color: "#ff833c" }}>
+							Home
+						</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={{
+							flexDirection: "column",
+							alignItems: "center",
+						}}
+						//@ts-ignore
+						onPress={() => navigation.navigate("CreateProduct")}
+					>
+						<PlusCircleIcon color={"#a3a1a0"} />
+						<Text style={{ fontSize: 10, color: "#a3a1a0" }}>
+							Add product
+						</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={{
+							flexDirection: "column",
+							alignItems: "center",
+						}}
+					>
+						<UserCircleIcon color={"#a3a1a0"} />
+						<Text style={{ fontSize: 10, color: "#a3a1a0" }}>
+							Profile
+						</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 		</SafeAreaView>
 	);

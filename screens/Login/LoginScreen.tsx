@@ -46,6 +46,7 @@ const LoginScreen: React.FC = () => {
 				<View style={{ alignItems: "center" }}>
 					<Pressable
 						style={styles.button}
+						//@ts-ignore
 						onPress={() => navigation.navigate("Home")}
 					>
 						<Text style={styles.text}>{"Sign in"}</Text>
