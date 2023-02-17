@@ -12,6 +12,8 @@ import { styles } from "./Home.styles";
 import {
 	MagnifyingGlassIcon,
 	AdjustmentsHorizontalIcon,
+	BarsArrowDownIcon,
+	BarsArrowUpIcon,
 } from "react-native-heroicons/solid";
 import {
 	HomeIcon,
@@ -24,11 +26,13 @@ import axios, { AxiosResponse } from "axios";
 import Product from "../../components/product/Product";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import Modal from "react-native-modal";
 
 const HomeScreen: React.FC = () => {
 	const [products, setProducts] = useState<Iproduct[]>([]);
 	const [filterQuery, setfilterQuery] = useState<string>();
 	const [filteredData, setFilteredData] = useState<Iproduct[]>([]);
+	const [isModalVisible, setIsModalVisible] = useState(false);
 	const user = useSelector((state: any) => state.user.currentUser?._id);
 	const navigation = useNavigation();
 	useEffect(() => {
@@ -50,6 +54,37 @@ const HomeScreen: React.FC = () => {
 			setFilteredData(products);
 		}
 	}, [filterQuery, products]);
+
+	const ascendingOrder = () => {
+		const newProductList = filteredData.sort(function (a, b) {
+			const nameA = a.name.toUpperCase();
+			const nameB = b.name.toUpperCase();
+			if (nameA < nameB) {
+				return -1;
+			}
+			if (nameA > nameB) {
+				return 1;
+			}
+			return 0;
+		});
+		setFilteredData(newProductList);
+		setIsModalVisible(false);
+	};
+	const descendingOrder = () => {
+		const newProductList = filteredData.sort(function (a, b) {
+			const nameA = a.name.toUpperCase();
+			const nameB = b.name.toUpperCase();
+			if (nameA > nameB) {
+				return -1;
+			}
+			if (nameA < nameB) {
+				return 1;
+			}
+			return 0;
+		});
+		setFilteredData(newProductList);
+		setIsModalVisible(false);
+	};
 
 	const renderItem = ({ item }: { item: productProps }) => {
 		return (
@@ -95,13 +130,16 @@ const HomeScreen: React.FC = () => {
 						autoCapitalize="none"
 					/>
 				</View>
-				<View style={styles.filterIcon}>
+				<TouchableOpacity
+					style={styles.filterIcon}
+					onPress={() => setIsModalVisible(true)}
+				>
 					<AdjustmentsHorizontalIcon color="#fff" />
-				</View>
+				</TouchableOpacity>
 			</View>
 			<View style={styles.list}>
 				<FlatList
-					data={filteredData}
+					data={filteredData.slice(0, 10)}
 					renderItem={renderItem}
 					keyExtractor={(item) => item._id}
 					numColumns={2}
@@ -165,6 +203,35 @@ const HomeScreen: React.FC = () => {
 					</View>
 				</View>
 			)}
+			<Modal isVisible={isModalVisible}>
+				<TouchableOpacity
+					style={{
+						flexDirection: "column",
+						alignItems: "center",
+						marginTop: "20%",
+					}}
+					onPress={() => ascendingOrder()}
+				>
+					<BarsArrowUpIcon color={"#fff"} />
+
+					<Text style={{ fontSize: 10, color: "#fff" }}>
+						ascending order(A-Z)
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={{
+						flexDirection: "column",
+						alignItems: "center",
+						marginTop: "20%",
+					}}
+					onPress={() => descendingOrder()}
+				>
+					<BarsArrowDownIcon color={"#fff"} />
+					<Text style={{ fontSize: 10, color: "#fff" }}>
+						descending order(Z-A)
+					</Text>
+				</TouchableOpacity>
+			</Modal>
 		</SafeAreaView>
 	);
 };
