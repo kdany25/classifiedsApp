@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
 	main: {
 		backgroundColor: "#e3effc",
-		// elevation: 5,
 		width: 180,
 		margin: 2,
 		borderRadius: 10,
@@ -23,7 +22,9 @@ export const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	likeButton: {
-		position: "absolute", top: "5%", left: "88%" 
+		position: "absolute",
+		top: "5%",
+		left: "88%",
 	},
 	name: {
 		fontSize: 9,
@@ -49,8 +50,8 @@ export const styles = StyleSheet.create({
 	},
 	backButton: {
 		position: "absolute",
-		bottom: '5%',
-		left: '82%',
+		bottom: "5%",
+		left: "82%",
 		padding: 2,
 		borderRadius: 5,
 		backgroundColor: "#ff833c",
