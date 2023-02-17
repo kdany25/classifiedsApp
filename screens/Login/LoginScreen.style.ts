@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create<any>({
+export const styles = StyleSheet.create({
 	main: {
 		flex: 1,
 		position: "relative",
-		backgroundColor: "#8d8e8f",
+		backgroundColor: "#ff833c",
 	},
 	container: {
 		position: "absolute",
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create<any>({
 		justifyContent: "center",
 	},
 	title: {
-		color: "#416FDF",
+		color: "#ff833c",
 		textAlign: "center",
 		marginTop: "5%",
 		marginBottom: "5%",
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create<any>({
 
 	checkboxContainer: {
 		flexDirection: "row",
-		marginBottom: 20, // to be removed
+		marginBottom: "10%",
 	},
 	checkbox: {
 		alignSelf: "center",
@@ -69,7 +69,7 @@ export const styles = StyleSheet.create<any>({
 		paddingVertical: 15,
 		borderRadius: 10,
 		elevation: 3,
-		backgroundColor: "#416FDF",
+		backgroundColor: "#ff833c",
 		width: "90%",
 	},
 	text: {
@@ -82,12 +82,11 @@ export const styles = StyleSheet.create<any>({
 	signInText: {
 		color: "#c2b9b8",
 		textAlign: "center",
-		marginTop: 20, // to be removed
+		marginTop: "10%",
 	},
 	socialMedia: {
 		flexDirection: "row",
-		justifyContent: "space-between",
-		margin: 50, // to be removed
+		paddingVertical: "5%",
 	},
 	signUpText: {
 		color: "#c2b9b8",
