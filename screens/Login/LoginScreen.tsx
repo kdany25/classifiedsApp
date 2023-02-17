@@ -7,6 +7,7 @@ import {
 	SafeAreaView,
 	TextInput,
 	Pressable,
+	TouchableOpacity,
 } from "react-native";
 import { styles } from "./LoginScreen.style";
 import { SocialIcon } from "react-native-elements";
@@ -107,9 +108,11 @@ const LoginScreen: React.FC = () => {
 				</View>
 
 				{/* SignUp */}
-				<Text style={styles.signUpText}>
-					Don't have an account? Signup
-				</Text>
+				<TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+					<Text style={styles.signUpText}>
+						Don't have an account? Signup
+					</Text>
+				</TouchableOpacity>
 
 				{/* continue as customer */}
 				<View style={{ alignItems: "center", marginTop: "5%" }}>

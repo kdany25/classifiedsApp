@@ -89,7 +89,7 @@ export const styles = StyleSheet.create({
 		paddingVertical: "5%",
 	},
 	signUpText: {
-		color: "#c2b9b8",
+		color: "#000",
 		textAlign: "center",
 	},
 });
