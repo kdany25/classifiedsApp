@@ -63,6 +63,8 @@ const CreateProduct: React.FC = () => {
 	//handle for Datepicker
 	const onChange = (event: any, value: any) => {
 		setDate(value);
+		setIsPickerShow(false)
+		handleChange("manufacture_date", date);
 	};
 	//Onchange for product form
 	const handleChange = (key: string, e: any) => {
@@ -152,6 +154,8 @@ const CreateProduct: React.FC = () => {
 	};
 	return (
 		<SafeAreaView style={styles.mainContainer}>
+	{/* <ScrollView> */}
+
 			{/* toast notification */}
 			<Toast />
 			<View
@@ -200,14 +204,6 @@ const CreateProduct: React.FC = () => {
 							}
 							placeholder="Enter description"
 							multiline
-						/>
-					</View>
-					<View>
-						<TextInput
-							style={styles.input}
-							onChangeText={(image) =>
-								handleChange("image", image)
-							}
 						/>
 					</View>
 					{/* Category dropdown */}
@@ -270,24 +266,6 @@ const CreateProduct: React.FC = () => {
 							style={styles.datePicker}
 						/>
 					)}
-					{/* Saving Date */}
-					{isPickerShow && (
-						<TouchableOpacity
-							style={{
-								flexDirection: "row",
-								alignItems: "center",
-							}}
-							onPress={() => {
-								setIsPickerShow(false);
-								handleChange("manufacture_date", date);
-							}}
-						>
-							<CalendarDaysIcon color={"#ff833c"} />
-							<Text style={{ fontSize: 10, color: "#ff833c" }}>
-								save date
-							</Text>
-						</TouchableOpacity>
-					)}
 					{image ? (
 						<>
 							<View
@@ -319,7 +297,7 @@ const CreateProduct: React.FC = () => {
 							style={{
 								flexDirection: "row",
 								alignItems: "center",
-								marginTop: "5%",
+								marginTop: "2%",
 							}}
 							onPress={pickImage}
 						>
@@ -353,7 +331,7 @@ const CreateProduct: React.FC = () => {
 						position: "absolute",
 						bottom: "0%",
 						width: "100%",
-						height: 80,
+						height: 50,
 						backgroundColor: "#fff",
 						borderTopWidth: 1,
 						borderColor: "#faddcf",
@@ -405,6 +383,7 @@ const CreateProduct: React.FC = () => {
 					</View>
 				</View>
 			)}
+			{/* </ScrollView> */}
 		</SafeAreaView>
 	);
 };

@@ -11,7 +11,7 @@
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
     "@react-native-community/checkbox": "^0.5.14",
-    "@react-native-community/datetimepicker": "^6.7.5",
+    "@react-native-community/datetimepicker": "6.5.2",
     "@react-navigation/native": "^6.1.4",
     "@react-navigation/native-stack": "^6.9.10",
     "@reduxjs/toolkit": "^1.9.2",

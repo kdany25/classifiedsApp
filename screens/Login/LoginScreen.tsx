@@ -112,13 +112,7 @@ const LoginScreen: React.FC = () => {
 				</View>
 				<Text style={styles.signInText}>Sign In with this</Text>
 
-				{/* social media */}
-				<View style={{ alignItems: "center" }}>
-					<View style={styles.socialMedia}>
-						<SocialIcon type="google" />
-						<SocialIcon type="facebook" />
-					</View>
-				</View>
+				
 
 				{/* SignUp */}
 				<TouchableOpacity onPress={() => navigation.navigate("Signup")}>
