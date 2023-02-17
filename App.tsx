@@ -5,45 +5,49 @@ import LoginScreen from "./screens/Login/LoginScreen";
 import HomeScreen from "./screens/Home/HomeScreen";
 import ProductPage from "./screens/product/ProductPage";
 import CreateProduct from "./screens/create-Product/CreateProduct";
+import { store } from "./store";
+import { Provider } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 	return (
 		<NavigationContainer>
-			<TailwindProvider>
-				<Stack.Navigator>
-					<Stack.Screen
-						name="Login"
-						component={LoginScreen}
-						options={{
-							presentation: "modal",
-							headerShown: false,
-						}}
-					/>
-					<Stack.Screen
-						name="Home"
-						component={HomeScreen}
-						options={{
-							headerShown: false,
-						}}
-					/>
-					<Stack.Screen
-						name="ProductPage"
-						component={ProductPage}
-						options={{
-							headerShown: false,
-						}}
-					/>
-					<Stack.Screen
-						name="CreateProduct"
-						component={CreateProduct}
-						options={{
-							headerShown: false,
-						}}
-					/>
-				</Stack.Navigator>
-			</TailwindProvider>
+			<Provider store={store}>
+				<TailwindProvider>
+					<Stack.Navigator>
+						<Stack.Screen
+							name="Login"
+							component={LoginScreen}
+							options={{
+								presentation: "modal",
+								headerShown: false,
+							}}
+						/>
+						<Stack.Screen
+							name="Home"
+							component={HomeScreen}
+							options={{
+								headerShown: false,
+							}}
+						/>
+						<Stack.Screen
+							name="ProductPage"
+							component={ProductPage}
+							options={{
+								headerShown: false,
+							}}
+						/>
+						<Stack.Screen
+							name="CreateProduct"
+							component={CreateProduct}
+							options={{
+								headerShown: false,
+							}}
+						/>
+					</Stack.Navigator>
+				</TailwindProvider>
+			</Provider>
 		</NavigationContainer>
 	);
 }
