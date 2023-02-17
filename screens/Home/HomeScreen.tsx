@@ -27,6 +27,8 @@ import { useSelector } from "react-redux";
 
 const HomeScreen: React.FC = () => {
 	const [products, setProducts] = useState<Iproduct[]>([]);
+	const [filterQuery, setfilterQuery] = useState<string>();
+	const [filteredData, setFilteredData] = useState<Iproduct[]>([]);
 	const user = useSelector((state: any) => state.user.currentUser?._id);
 	const navigation = useNavigation();
 	useEffect(() => {
@@ -38,6 +40,17 @@ const HomeScreen: React.FC = () => {
 				setProducts(response.data);
 			});
 	}, []);
+	useEffect(() => {
+		if (filterQuery) {
+			const newFilteredData = products.filter((row) =>
+				row.name.toString().toLocaleLowerCase().includes(filterQuery)
+			);
+			setFilteredData(newFilteredData);
+		} else if (!filterQuery) {
+			setFilteredData(products);
+		}
+	}, [filterQuery, products]);
+
 	const renderItem = ({ item }: { item: productProps }) => {
 		return (
 			<Product
@@ -75,7 +88,12 @@ const HomeScreen: React.FC = () => {
 			<View style={styles.searchBarContainer}>
 				<View style={styles.searchInput}>
 					<MagnifyingGlassIcon color="#ff833c" size={20} />
-					<TextInput placeholder="Search" style={styles.input} />
+					<TextInput
+						placeholder="Search"
+						style={styles.input}
+						onChangeText={(query) => setfilterQuery(query)}
+						autoCapitalize="none"
+					/>
 				</View>
 				<View style={styles.filterIcon}>
 					<AdjustmentsHorizontalIcon color="#fff" />
@@ -83,7 +101,7 @@ const HomeScreen: React.FC = () => {
 			</View>
 			<View style={styles.list}>
 				<FlatList
-					data={products}
+					data={filteredData}
 					renderItem={renderItem}
 					keyExtractor={(item) => item._id}
 					numColumns={2}
