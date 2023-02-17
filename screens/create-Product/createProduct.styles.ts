@@ -45,4 +45,10 @@ export const styles = StyleSheet.create<any>({
 		height: 40,
 		fontSize: 16,
 	},
+	mainContainer: {
+		alignItems: "center",
+		backgroundColor: "#fff",
+		height: "100%",
+		position: "relative",
+	},
 });

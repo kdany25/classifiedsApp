@@ -18,8 +18,8 @@ import {
 	PlusCircleIcon,
 	UserCircleIcon,
 } from "react-native-heroicons/outline";
-import { productProps } from "../../components/product/product.interface";
-import { Iproduct } from "./Home.interface";
+import { productProps } from "../../interfaces/product.interface";
+import { Iproduct } from "../../interfaces/Home.interface";
 import axios, { AxiosResponse } from "axios";
 import Product from "../../components/product/Product";
 import { useNavigation } from "@react-navigation/native";

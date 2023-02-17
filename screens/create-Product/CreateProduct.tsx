@@ -1,3 +1,5 @@
+//Dependencies
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	Text,
@@ -7,24 +9,30 @@ import {
 	TouchableOpacity,
 	Platform,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import { styles } from "./createProduct.styles";
-import { InewProduct, Icategory } from "./createProduct.interface";
-import {
-	HomeIcon,
-	PlusCircleIcon,
-	UserCircleIcon,
-} from "react-native-heroicons/outline";
-import {
-	CalendarDaysIcon,
-	ChevronDownIcon,
-} from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Dropdown } from "react-native-element-dropdown";
 import axios, { AxiosResponse } from "axios";
 
+//styles
+import { styles } from "./createProduct.styles";
+
+//interfaces
+import {
+	InewProduct,
+	Icategory,
+} from "../../interfaces/createProduct.interface";
+
+//Icons
+import {
+	HomeIcon,
+	PlusCircleIcon,
+	UserCircleIcon,
+} from "react-native-heroicons/outline";
+import { CalendarDaysIcon } from "react-native-heroicons/solid";
+
 const CreateProduct: React.FC = () => {
+	//States
 	const [inputs, setInputs] = useState({});
 	const [isPickerShow, setIsPickerShow] = useState(false);
 	const [date, setDate] = useState(new Date(Date.now()));
@@ -32,28 +40,37 @@ const CreateProduct: React.FC = () => {
 	const [isFocus, setIsFocus] = useState(false);
 	const [categories, setCategories] = useState([]);
 	const navigation = useNavigation();
+
+	//Method to show DatePicker
 	const showPicker = () => {
 		setIsPickerShow(true);
 	};
 
-	const onChange = (event: any, value: any) => {
+	//handle for Datepicker
+	const onChange = (value: any) => {
 		setDate(value);
 	};
-
+	//Onchange for product form
 	const handleChange = (key: string, e: any) => {
 		setInputs((prev) => {
 			return { ...prev, [key]: e };
 		});
 	};
+
+	//Api call for creating product
 	const onSave = () => {
 		axios.post<InewProduct>(
 			"https://classfiedbackend.herokuapp.com/api/product",
 			inputs
 		);
 	};
+
+	//to  the category
 	useEffect(() => {
 		handleChange("category", value);
 	}, [value]);
+
+	//Api call for category from database
 	useEffect(() => {
 		axios
 			.get<Icategory[]>(
@@ -64,20 +81,11 @@ const CreateProduct: React.FC = () => {
 			});
 	}, []);
 
-	console.log(inputs);
 	return (
-		<SafeAreaView
-			style={{
-				alignItems: "center",
-				backgroundColor: "#fff",
-				height: "100%",
-				position: "relative",
-			}}
-		>
+		<SafeAreaView style={styles.mainContainer}>
 			<View
 				style={{
 					width: "80%",
-					// alignItems: 'center'
 					flexDirection: "column",
 					marginTop: "15%",
 				}}
@@ -93,6 +101,7 @@ const CreateProduct: React.FC = () => {
 						Create Product
 					</Text>
 				</View>
+
 				<View>
 					<View style={{ marginTop: "10%" }}>
 						<TextInput
@@ -209,6 +218,8 @@ const CreateProduct: React.FC = () => {
 					</Pressable>
 				</View>
 			</View>
+
+				{/* Menu */}
 			<View
 				style={{
 					position: "absolute",

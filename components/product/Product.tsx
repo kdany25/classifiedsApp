@@ -1,11 +1,15 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+//Dependencies
 import React from "react";
-import { styles } from "./Product.style";
-import { productProps } from "./product.interface";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Currency from "react-currency-formatter";
+//Icon
 import { HeartIcon } from "react-native-heroicons/outline";
 import { PlusSmallIcon } from "react-native-heroicons/solid";
+//Interface
+import { productProps } from "../../interfaces/product.interface";
+//Css
+import { styles } from "./Product.style";
 
 const Product: React.FC<productProps> = ({
 	_id,
@@ -14,12 +18,13 @@ const Product: React.FC<productProps> = ({
 	short_description,
 	image,
 	manufacture_date,
-	category
+	category,
 }) => {
 	const navigation = useNavigation();
 	return (
 		<TouchableOpacity
 			onPress={() =>
+				//@ts-ignore
 				navigation.navigate("ProductPage", {
 					_id,
 					name,
@@ -27,17 +32,19 @@ const Product: React.FC<productProps> = ({
 					short_description,
 					image,
 					manufacture_date,
-					category
+					category,
 				})
 			}
 		>
 			<View style={[styles.main]}>
+				{/* product Image */}
 				<View style={styles.imageHolder}>
 					<Image source={{ uri: image }} style={styles.image} />
 					<View style={styles.likeButton}>
 						<HeartIcon color={"#f7ac65"} size={12} />
 					</View>
 				</View>
+				{/* product name,price,date */}
 				<View style={styles.details}>
 					<Text style={styles.name}>{name}</Text>
 					<Text style={styles.price}>
@@ -47,8 +54,10 @@ const Product: React.FC<productProps> = ({
 						{manufacture_date}
 					</Text>
 				</View>
+				{/*Go to product button */}
 				<TouchableOpacity
 					onPress={() =>
+						//@ts-ignore
 						navigation.navigate("ProductPage", {
 							_id,
 							name,
