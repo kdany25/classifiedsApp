@@ -5,7 +5,7 @@ import {
 	logOutStart,
 	logOutSuccess,
 	logOutFailure,
-} from "./slice/AuthSlice";
+} from "../slice/AuthSlice";
 import { publicRequest } from "./requestMethod";
 
 //login

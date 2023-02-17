@@ -5,7 +5,7 @@ import LoginScreen from "./screens/Login/LoginScreen";
 import HomeScreen from "./screens/Home/HomeScreen";
 import ProductPage from "./screens/product/ProductPage";
 import CreateProduct from "./screens/create-Product/CreateProduct";
-import { store } from "./store";
+import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import SignUp from "./screens/signup/SIgnUp";
 
