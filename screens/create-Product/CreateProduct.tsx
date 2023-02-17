@@ -8,6 +8,7 @@ import {
 	Pressable,
 	TouchableOpacity,
 	Platform,
+	Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -15,6 +16,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import axios, { AxiosResponse } from "axios";
 import { useSelector } from "react-redux";
 import Toast from "react-native-toast-message";
+import * as ImagePicker from "expo-image-picker";
 
 //styles
 import { styles } from "./createProduct.styles";
@@ -31,7 +33,10 @@ import {
 	PlusCircleIcon,
 	UserCircleIcon,
 } from "react-native-heroicons/outline";
-import { CalendarDaysIcon } from "react-native-heroicons/solid";
+import { CalendarDaysIcon, PhotoIcon } from "react-native-heroicons/solid";
+
+//Helper
+import { uploadImage } from "../../helper";
 
 const CreateProduct: React.FC = () => {
 	//States
@@ -41,6 +46,8 @@ const CreateProduct: React.FC = () => {
 	const [value, setValue] = useState(null);
 	const [isFocus, setIsFocus] = useState(false);
 	const [categories, setCategories] = useState([]);
+	const [image, setImage] = useState<any>(null);
+	const [base64Image, setBase64Image] = useState<any>(null);
 
 	//navigation
 	const navigation = useNavigation();
@@ -119,6 +126,30 @@ const CreateProduct: React.FC = () => {
 			});
 	}, []);
 
+	const pickImage = async () => {
+		// No permissions request is necessary for launching the image library
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+			base64: true,
+		});
+		if (!result.canceled) {
+			setImage(result.assets[0].uri);
+			setBase64Image(`data:image/jpg;base64,${result.assets[0].base64}`);
+		}
+	};
+
+	//upload image
+	const getImgurl = async () => {
+		try {
+			const result = await uploadImage(base64Image);
+			handleChange("image", result);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<SafeAreaView style={styles.mainContainer}>
 			{/* toast notification */}
@@ -254,6 +285,47 @@ const CreateProduct: React.FC = () => {
 							<CalendarDaysIcon color={"#ff833c"} />
 							<Text style={{ fontSize: 10, color: "#ff833c" }}>
 								save date
+							</Text>
+						</TouchableOpacity>
+					)}
+					{image ? (
+						<>
+							<View
+								style={{ margin: 10, alignItems: "center" }}
+							></View>
+							<Image
+								source={{ uri: image }}
+								style={{ height: 70, width: 70 }}
+							/>
+
+							<TouchableOpacity
+								style={{
+									flexDirection: "row",
+									alignItems: "center",
+									marginTop: "5%",
+								}}
+								onPress={getImgurl}
+							>
+								<PhotoIcon color={"#ff833c"} />
+								<Text
+									style={{ fontSize: 10, color: "#ff833c" }}
+								>
+									Upload it
+								</Text>
+							</TouchableOpacity>
+						</>
+					) : (
+						<TouchableOpacity
+							style={{
+								flexDirection: "row",
+								alignItems: "center",
+								marginTop: "5%",
+							}}
+							onPress={pickImage}
+						>
+							<PhotoIcon color={"#a3a1a0"} />
+							<Text style={{ fontSize: 10, color: "#a3a1a0" }}>
+								Select Image
 							</Text>
 						</TouchableOpacity>
 					)}
