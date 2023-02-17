@@ -14,6 +14,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Dropdown } from "react-native-element-dropdown";
 import axios, { AxiosResponse } from "axios";
 import { useSelector } from "react-redux";
+import Toast from "react-native-toast-message";
 
 //styles
 import { styles } from "./createProduct.styles";
@@ -40,6 +41,8 @@ const CreateProduct: React.FC = () => {
 	const [value, setValue] = useState(null);
 	const [isFocus, setIsFocus] = useState(false);
 	const [categories, setCategories] = useState([]);
+
+	//navigation
 	const navigation = useNavigation();
 
 	//selecting user from state
@@ -51,7 +54,7 @@ const CreateProduct: React.FC = () => {
 	};
 
 	//handle for Datepicker
-	const onChange = (value: any) => {
+	const onChange = (event: any, value: any) => {
 		setDate(value);
 	};
 	//Onchange for product form
@@ -61,15 +64,46 @@ const CreateProduct: React.FC = () => {
 		});
 	};
 
-	//Api call for creating product
-	const onSave = () => {
-		axios.post<InewProduct>(
-			"https://classfiedbackend.herokuapp.com/api/product",
-			inputs
-		);
+	//success taost
+	const showSuccessMessage = () => {
+		Toast.show({
+			type: "success",
+			text1: "Message",
+			text2: "Product created successful",
+			autoHide: true,
+			visibilityTime: 3000,
+		});
 	};
 
-	//to  the category
+	//error taost
+	const showErrorMessage = () => {
+		Toast.show({
+			type: "error",
+			text1: "Message",
+			text2: "Error, please try again and check the inputs ",
+			autoHide: true,
+			visibilityTime: 3000,
+		});
+	};
+
+	//Api call for creating product
+	const onSave = async () => {
+		await axios
+			.post<InewProduct>(
+				"https://classfiedbackend.herokuapp.com/api/product",
+				inputs
+			)
+			.then((res) => {
+				if (res.data.name) {
+					showSuccessMessage();
+				}
+			})
+			.catch((error) => {
+				showErrorMessage();
+			});
+	};
+
+	//to save  the category
 	useEffect(() => {
 		handleChange("category", value);
 	}, [value]);
@@ -87,6 +121,8 @@ const CreateProduct: React.FC = () => {
 
 	return (
 		<SafeAreaView style={styles.mainContainer}>
+			{/* toast notification */}
+			<Toast />
 			<View
 				style={{
 					width: "80%",
@@ -94,6 +130,7 @@ const CreateProduct: React.FC = () => {
 					marginTop: "15%",
 				}}
 			>
+				{/* Title */}
 				<View>
 					<Text
 						style={{
@@ -106,6 +143,7 @@ const CreateProduct: React.FC = () => {
 					</Text>
 				</View>
 
+				{/* Form */}
 				<View>
 					<View style={{ marginTop: "10%" }}>
 						<TextInput
@@ -141,6 +179,7 @@ const CreateProduct: React.FC = () => {
 							}
 						/>
 					</View>
+					{/* Category dropdown */}
 					<View style={styles.container}>
 						<Dropdown
 							style={[
@@ -168,6 +207,8 @@ const CreateProduct: React.FC = () => {
 							}}
 						/>
 					</View>
+
+					{/* Date picker button */}
 					{!isPickerShow && (
 						<TouchableOpacity
 							style={{
@@ -184,6 +225,8 @@ const CreateProduct: React.FC = () => {
 						</TouchableOpacity>
 					)}
 					<TouchableOpacity></TouchableOpacity>
+
+					{/* Date picker */}
 					{isPickerShow && (
 						<DateTimePicker
 							value={date}
@@ -196,6 +239,7 @@ const CreateProduct: React.FC = () => {
 							style={styles.datePicker}
 						/>
 					)}
+					{/* Saving Date */}
 					{isPickerShow && (
 						<TouchableOpacity
 							style={{
@@ -214,8 +258,15 @@ const CreateProduct: React.FC = () => {
 						</TouchableOpacity>
 					)}
 				</View>
+
+				{/* Creating product button */}
 				<View style={{ marginTop: "10%" }}>
-					<Pressable style={styles.button} onPress={() => onSave()}>
+					<Pressable
+						style={styles.button}
+						onPress={() => {
+							onSave();
+						}}
+					>
 						<Text style={{ color: "#fff" }}>
 							{"Create Product"}
 						</Text>
@@ -223,7 +274,7 @@ const CreateProduct: React.FC = () => {
 				</View>
 			</View>
 
-			{/* Menu */}
+			{/* MenuBar */}
 			{user && (
 				<View
 					style={{

@@ -13,10 +13,12 @@ import { SocialIcon } from "react-native-elements";
 import { login } from "../../apiCalls";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import Toast from "react-native-toast-message";
 
 const LoginScreen: React.FC = () => {
 	const [email, setEmail] = useState<string>();
 	const [password, setPassword] = useState<string>();
+	const [signPlaced, setSignedPlaced] = useState(false);
 	const navigation = useNavigation();
 	const user = useSelector((state: any) => state.user.currentUser?._id);
 	useLayoutEffect(() => {
@@ -26,20 +28,33 @@ const LoginScreen: React.FC = () => {
 	}, []);
 	const dispatch = useDispatch();
 
-	const handleClick = (e: any) => {
-		e.preventDefault();
+	const handleClick = () => {
 		login(dispatch, { email, password });
+		setSignedPlaced(true);
 	};
-  //navigate after logging in
+	const showError = () => {
+		Toast.show({
+			type: "error",
+			text1: "Message",
+			text2: "Invalid credintials",
+			autoHide: true,
+			visibilityTime: 3000,
+		});
+	};
+	//navigate after logging in
 	useEffect(() => {
 		if (user) {
 			//@ts-ignore
 			navigation.navigate("Home");
 		}
-	}, [user]);
+		if (!user && email && password && signPlaced) {
+			setTimeout(showError, 3000);
+		}
+	}, [user, signPlaced]);
 
 	return (
 		<SafeAreaView style={styles.main}>
+			<Toast />
 			{/* Section container */}
 			<View style={styles.container}>
 				<Text style={styles.title}>Get started</Text>
