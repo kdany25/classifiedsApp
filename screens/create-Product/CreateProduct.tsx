@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Dropdown } from "react-native-element-dropdown";
 import axios, { AxiosResponse } from "axios";
+import { useSelector } from "react-redux";
 
 //styles
 import { styles } from "./createProduct.styles";
@@ -40,6 +41,9 @@ const CreateProduct: React.FC = () => {
 	const [isFocus, setIsFocus] = useState(false);
 	const [categories, setCategories] = useState([]);
 	const navigation = useNavigation();
+
+	//selecting user from state
+	const user = useSelector((state: any) => state.user.currentUser?._id);
 
 	//Method to show DatePicker
 	const showPicker = () => {
@@ -219,63 +223,65 @@ const CreateProduct: React.FC = () => {
 				</View>
 			</View>
 
-				{/* Menu */}
-			<View
-				style={{
-					position: "absolute",
-					bottom: "0%",
-					width: "100%",
-					height: 80,
-					backgroundColor: "#fff",
-					borderTopWidth: 1,
-					borderColor: "#faddcf",
-				}}
-			>
+			{/* Menu */}
+			{user && (
 				<View
 					style={{
-						flexDirection: "row",
-						justifyContent: "space-between",
-						paddingHorizontal: "5%",
-						marginTop: "2%",
+						position: "absolute",
+						bottom: "0%",
+						width: "100%",
+						height: 80,
+						backgroundColor: "#fff",
+						borderTopWidth: 1,
+						borderColor: "#faddcf",
 					}}
 				>
-					<TouchableOpacity
+					<View
 						style={{
-							flexDirection: "column",
-							alignItems: "center",
-						}}
-						//@ts-ignore
-						onPress={() => navigation.navigate("Home")}
-					>
-						<HomeIcon color={"#a3a1a0"} />
-						<Text style={{ fontSize: 10, color: "#a3a1a0" }}>
-							Home
-						</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={{
-							flexDirection: "column",
-							alignItems: "center",
+							flexDirection: "row",
+							justifyContent: "space-between",
+							paddingHorizontal: "5%",
+							marginTop: "2%",
 						}}
 					>
-						<PlusCircleIcon color="#ff833c" />
-						<Text style={{ fontSize: 10, color: "#ff833c" }}>
-							Add product
-						</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={{
-							flexDirection: "column",
-							alignItems: "center",
-						}}
-					>
-						<UserCircleIcon color={"#a3a1a0"} />
-						<Text style={{ fontSize: 10, color: "#a3a1a0" }}>
-							Profile
-						</Text>
-					</TouchableOpacity>
+						<TouchableOpacity
+							style={{
+								flexDirection: "column",
+								alignItems: "center",
+							}}
+							//@ts-ignore
+							onPress={() => navigation.navigate("Home")}
+						>
+							<HomeIcon color={"#a3a1a0"} />
+							<Text style={{ fontSize: 10, color: "#a3a1a0" }}>
+								Home
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={{
+								flexDirection: "column",
+								alignItems: "center",
+							}}
+						>
+							<PlusCircleIcon color="#ff833c" />
+							<Text style={{ fontSize: 10, color: "#ff833c" }}>
+								Add product
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={{
+								flexDirection: "column",
+								alignItems: "center",
+							}}
+						>
+							<UserCircleIcon color={"#a3a1a0"} />
+							<Text style={{ fontSize: 10, color: "#a3a1a0" }}>
+								Profile
+							</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
-			</View>
+			)}
 		</SafeAreaView>
 	);
 };

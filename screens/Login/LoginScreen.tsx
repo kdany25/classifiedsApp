@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
 	View,
@@ -10,16 +10,33 @@ import {
 } from "react-native";
 import { styles } from "./LoginScreen.style";
 import { SocialIcon } from "react-native-elements";
+import { login } from "../../apiCalls";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const LoginScreen: React.FC = () => {
 	const [email, setEmail] = useState<string>();
 	const [password, setPassword] = useState<string>();
 	const navigation = useNavigation();
+	const user = useSelector((state: any) => state.user.currentUser?._id);
 	useLayoutEffect(() => {
 		navigation.setOptions({
 			headerShown: false,
 		});
 	}, []);
+	const dispatch = useDispatch();
+
+	const handleClick = (e: any) => {
+		e.preventDefault();
+		login(dispatch, { email, password });
+	};
+  //navigate after logging in
+	useEffect(() => {
+		if (user) {
+			//@ts-ignore
+			navigation.navigate("Home");
+		}
+	}, [user]);
 
 	return (
 		<SafeAreaView style={styles.main}>
@@ -57,7 +74,7 @@ const LoginScreen: React.FC = () => {
 					<Pressable
 						style={styles.button}
 						//@ts-ignore
-						onPress={() => console.log(email, password)}
+						onPress={handleClick}
 					>
 						<Text style={styles.text}>{"Sign in"}</Text>
 					</Pressable>
