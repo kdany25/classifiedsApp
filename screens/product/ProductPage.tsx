@@ -5,6 +5,8 @@ import {
 	ScrollView,
 	TouchableOpacity,
 	SafeAreaView,
+	Share,
+	Alert,
 } from "react-native";
 import React from "react";
 import {
@@ -31,6 +33,24 @@ const ProductPage: React.FC = () => {
 			category,
 		},
 	} = useRoute();
+
+	const onShare = async () => {
+		try {
+			const result = await Share.share({
+				message: `${name}`,
+			});
+			if (result.action === Share.sharedAction) {
+				if (result.activityType) {
+				} else {
+					// shared
+				}
+			} else if (result.action === Share.dismissedAction) {
+				// dismissed
+			}
+		} catch (error: any) {
+			Alert.alert(error.message);
+		}
+	};
 	return (
 		<SafeAreaView
 			style={{
@@ -53,10 +73,7 @@ const ProductPage: React.FC = () => {
 				>
 					<ArrowLeftIcon size={20} color="#fff" />
 				</TouchableOpacity>
-				<TouchableOpacity
-					onPress={navigation.goBack}
-					style={styles.shareButton}
-				>
+				<TouchableOpacity onPress={onShare} style={styles.shareButton}>
 					<ShareIcon size={20} color="#fff" />
 				</TouchableOpacity>
 			</View>
