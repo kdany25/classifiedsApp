@@ -5,7 +5,7 @@ export const styles = StyleSheet.create<any>({
 		width: "100%",
 		borderRadius: 15,
 		padding: 10,
-		marginTop: "10%",
+		marginTop: "2%",
 		backgroundColor: "#f7f4f2",
 	},
 	button: {

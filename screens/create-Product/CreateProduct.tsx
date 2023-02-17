@@ -8,6 +8,7 @@ import {
 	Pressable,
 	TouchableOpacity,
 	Platform,
+	Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -15,6 +16,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import axios, { AxiosResponse } from "axios";
 import { useSelector } from "react-redux";
 import Toast from "react-native-toast-message";
+import * as ImagePicker from "expo-image-picker";
 
 //styles
 import { styles } from "./createProduct.styles";
@@ -31,7 +33,10 @@ import {
 	PlusCircleIcon,
 	UserCircleIcon,
 } from "react-native-heroicons/outline";
-import { CalendarDaysIcon } from "react-native-heroicons/solid";
+import { CalendarDaysIcon, PhotoIcon } from "react-native-heroicons/solid";
+
+//Helper
+import { uploadImage } from "../../helper";
 
 const CreateProduct: React.FC = () => {
 	//States
@@ -41,6 +46,8 @@ const CreateProduct: React.FC = () => {
 	const [value, setValue] = useState(null);
 	const [isFocus, setIsFocus] = useState(false);
 	const [categories, setCategories] = useState([]);
+	const [image, setImage] = useState<any>(null);
+	const [base64Image, setBase64Image] = useState<any>(null);
 
 	//navigation
 	const navigation = useNavigation();
@@ -56,6 +63,8 @@ const CreateProduct: React.FC = () => {
 	//handle for Datepicker
 	const onChange = (event: any, value: any) => {
 		setDate(value);
+		setIsPickerShow(false)
+		handleChange("manufacture_date", date);
 	};
 	//Onchange for product form
 	const handleChange = (key: string, e: any) => {
@@ -119,8 +128,34 @@ const CreateProduct: React.FC = () => {
 			});
 	}, []);
 
+	const pickImage = async () => {
+		// No permissions request is necessary for launching the image library
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+			base64: true,
+		});
+		if (!result.canceled) {
+			setImage(result.assets[0].uri);
+			setBase64Image(`data:image/jpg;base64,${result.assets[0].base64}`);
+		}
+	};
+
+	//upload image
+	const getImgurl = async () => {
+		try {
+			const result = await uploadImage(base64Image);
+			handleChange("image", result);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<SafeAreaView style={styles.mainContainer}>
+	{/* <ScrollView> */}
+
 			{/* toast notification */}
 			<Toast />
 			<View
@@ -169,14 +204,6 @@ const CreateProduct: React.FC = () => {
 							}
 							placeholder="Enter description"
 							multiline
-						/>
-					</View>
-					<View>
-						<TextInput
-							style={styles.input}
-							onChangeText={(image) =>
-								handleChange("image", image)
-							}
 						/>
 					</View>
 					{/* Category dropdown */}
@@ -239,21 +266,44 @@ const CreateProduct: React.FC = () => {
 							style={styles.datePicker}
 						/>
 					)}
-					{/* Saving Date */}
-					{isPickerShow && (
+					{image ? (
+						<>
+							<View
+								style={{ margin: 10, alignItems: "center" }}
+							></View>
+							<Image
+								source={{ uri: image }}
+								style={{ height: 70, width: 70 }}
+							/>
+
+							<TouchableOpacity
+								style={{
+									flexDirection: "row",
+									alignItems: "center",
+									marginTop: "5%",
+								}}
+								onPress={getImgurl}
+							>
+								<PhotoIcon color={"#ff833c"} />
+								<Text
+									style={{ fontSize: 10, color: "#ff833c" }}
+								>
+									Upload it
+								</Text>
+							</TouchableOpacity>
+						</>
+					) : (
 						<TouchableOpacity
 							style={{
 								flexDirection: "row",
 								alignItems: "center",
+								marginTop: "2%",
 							}}
-							onPress={() => {
-								setIsPickerShow(false);
-								handleChange("manufacture_date", date);
-							}}
+							onPress={pickImage}
 						>
-							<CalendarDaysIcon color={"#ff833c"} />
-							<Text style={{ fontSize: 10, color: "#ff833c" }}>
-								save date
+							<PhotoIcon color={"#a3a1a0"} />
+							<Text style={{ fontSize: 10, color: "#a3a1a0" }}>
+								Select Image
 							</Text>
 						</TouchableOpacity>
 					)}
@@ -281,7 +331,7 @@ const CreateProduct: React.FC = () => {
 						position: "absolute",
 						bottom: "0%",
 						width: "100%",
-						height: 80,
+						height: 50,
 						backgroundColor: "#fff",
 						borderTopWidth: 1,
 						borderColor: "#faddcf",
@@ -333,6 +383,7 @@ const CreateProduct: React.FC = () => {
 					</View>
 				</View>
 			)}
+			{/* </ScrollView> */}
 		</SafeAreaView>
 	);
 };
