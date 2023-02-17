@@ -69,6 +69,7 @@ const LoginScreen: React.FC = () => {
 							<TextInput
 								placeholder="Enter Email"
 								onChangeText={(email) => setEmail(email)}
+								autoCapitalize="none"
 							/>
 						</View>
 					</View>
@@ -80,6 +81,7 @@ const LoginScreen: React.FC = () => {
 							<TextInput
 								placeholder="Enter Password"
 								onChangeText={(email) => setPassword(email)}
+								autoCapitalize="none"
 							/>
 						</View>
 					</View>
