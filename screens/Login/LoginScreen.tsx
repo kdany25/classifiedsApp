@@ -1,5 +1,5 @@
+//Dependencies
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import {
 	View,
 	Text,
@@ -9,19 +9,29 @@ import {
 	Pressable,
 	TouchableOpacity,
 } from "react-native";
-import { styles } from "./LoginScreen.style";
+import Toast from "react-native-toast-message";
 import { SocialIcon } from "react-native-elements";
-import { login } from "../../apiCalls";
+
+//api
+import { login } from "../../redux/apiCalls";
+
+//Hook
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
+
+//Styles
+import { styles } from "./LoginScreen.style";
 
 const LoginScreen: React.FC = () => {
+	//states
 	const [email, setEmail] = useState<string>();
 	const [password, setPassword] = useState<string>();
 	const [signPlaced, setSignedPlaced] = useState(false);
 	const navigation = useNavigation();
 	const user = useSelector((state: any) => state.user.currentUser?._id);
+
+	//hide header
 	useLayoutEffect(() => {
 		navigation.setOptions({
 			headerShown: false,
@@ -33,6 +43,8 @@ const LoginScreen: React.FC = () => {
 		login(dispatch, { email, password });
 		setSignedPlaced(true);
 	};
+
+	//showing error toast
 	const showError = () => {
 		Toast.show({
 			type: "error",
@@ -42,6 +54,7 @@ const LoginScreen: React.FC = () => {
 			visibilityTime: 3000,
 		});
 	};
+
 	//navigate after logging in
 	useEffect(() => {
 		if (user) {

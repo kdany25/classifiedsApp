@@ -1,3 +1,4 @@
+//Dependencies
 import {
 	View,
 	Text,
@@ -9,6 +10,9 @@ import {
 	Alert,
 } from "react-native";
 import React from "react";
+import Currency from "react-currency-formatter";
+
+//Icons
 import {
 	ArrowLeftIcon,
 	ShareIcon,
@@ -16,12 +20,16 @@ import {
 	TagIcon,
 	CalendarDaysIcon,
 } from "react-native-heroicons/solid";
+//Routes
 import { useNavigation, useRoute } from "@react-navigation/native";
+
+//Styles
 import { styles } from "./product.style";
-import Currency from "react-currency-formatter";
 
 const ProductPage: React.FC = () => {
 	const navigation = useNavigation();
+
+	//receiving props
 	const {
 		params: {
 			_id,
@@ -34,6 +42,7 @@ const ProductPage: React.FC = () => {
 		},
 	} = useRoute();
 
+	//share
 	const onShare = async () => {
 		try {
 			const result = await Share.share({
@@ -60,6 +69,7 @@ const ProductPage: React.FC = () => {
 				position: "relative",
 			}}
 		>
+			{/* banner */}
 			<View style={styles.banner}>
 				<Image
 					source={{
@@ -77,6 +87,8 @@ const ProductPage: React.FC = () => {
 					<ShareIcon size={20} color="#fff" />
 				</TouchableOpacity>
 			</View>
+
+			{/* Details */}
 			<View
 				style={{
 					height: "100%",

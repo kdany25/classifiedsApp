@@ -1,3 +1,4 @@
+//Dependencies
 import {
 	View,
 	Text,
@@ -8,7 +9,21 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { styles } from "./Home.styles";
+import axios, { AxiosResponse } from "axios";
+
+//Component
+import Product from "../../components/product/Product";
+import Modal from "react-native-modal";
+
+//interfaces
+import { productProps } from "../../interfaces/product.interface";
+import { Iproduct } from "../../interfaces/Home.interface";
+
+//Hooks
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+
+//Icon
 import {
 	MagnifyingGlassIcon,
 	AdjustmentsHorizontalIcon,
@@ -20,21 +35,24 @@ import {
 	PlusCircleIcon,
 	UserCircleIcon,
 } from "react-native-heroicons/outline";
-import { productProps } from "../../interfaces/product.interface";
-import { Iproduct } from "../../interfaces/Home.interface";
-import axios, { AxiosResponse } from "axios";
-import Product from "../../components/product/Product";
-import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import Modal from "react-native-modal";
+
+//styles
+import { styles } from "./Home.styles";
 
 const HomeScreen: React.FC = () => {
+	//states
 	const [products, setProducts] = useState<Iproduct[]>([]);
 	const [filterQuery, setfilterQuery] = useState<string>();
 	const [filteredData, setFilteredData] = useState<Iproduct[]>([]);
 	const [isModalVisible, setIsModalVisible] = useState(false);
+
+	//get user
 	const user = useSelector((state: any) => state.user.currentUser?._id);
+
+	//navigation
 	const navigation = useNavigation();
+
+	//Product api call
 	useEffect(() => {
 		axios
 			.get<Iproduct[]>(
@@ -44,6 +62,8 @@ const HomeScreen: React.FC = () => {
 				setProducts(response.data);
 			});
 	}, []);
+
+	//searching through products
 	useEffect(() => {
 		if (filterQuery) {
 			const newFilteredData = products.filter((row) =>
@@ -55,6 +75,7 @@ const HomeScreen: React.FC = () => {
 		}
 	}, [filterQuery, products]);
 
+	//Sorting ascending
 	const ascendingOrder = () => {
 		const newProductList = filteredData.sort(function (a, b) {
 			const nameA = a.name.toUpperCase();
@@ -70,6 +91,8 @@ const HomeScreen: React.FC = () => {
 		setFilteredData(newProductList);
 		setIsModalVisible(false);
 	};
+
+	//Sorting descending
 	const descendingOrder = () => {
 		const newProductList = filteredData.sort(function (a, b) {
 			const nameA = a.name.toUpperCase();
@@ -86,6 +109,7 @@ const HomeScreen: React.FC = () => {
 		setIsModalVisible(false);
 	};
 
+	//rendering single product
 	const renderItem = ({ item }: { item: productProps }) => {
 		return (
 			<Product
@@ -101,6 +125,7 @@ const HomeScreen: React.FC = () => {
 	};
 	return (
 		<SafeAreaView style={styles.main}>
+			{/* Header */}
 			<View style={styles.header}>
 				<View
 					style={{
@@ -110,6 +135,7 @@ const HomeScreen: React.FC = () => {
 					<Text style={styles.titleLogo}>Shop Your</Text>
 					<Text style={styles.titleLogo}>Favourite Device.</Text>
 				</View>
+				{/* avatar */}
 				<View style={styles.avatar}>
 					<Image
 						source={{
@@ -120,6 +146,7 @@ const HomeScreen: React.FC = () => {
 				</View>
 			</View>
 
+			{/* Search input */}
 			<View style={styles.searchBarContainer}>
 				<View style={styles.searchInput}>
 					<MagnifyingGlassIcon color="#ff833c" size={20} />
@@ -137,6 +164,8 @@ const HomeScreen: React.FC = () => {
 					<AdjustmentsHorizontalIcon color="#fff" />
 				</TouchableOpacity>
 			</View>
+
+			{/* Product List*/}
 			<View style={styles.list}>
 				<FlatList
 					data={filteredData.slice(0, 10)}
@@ -145,6 +174,8 @@ const HomeScreen: React.FC = () => {
 					numColumns={2}
 				/>
 			</View>
+
+			{/* Menu bar */}
 			{user && (
 				<View
 					style={{
@@ -203,6 +234,8 @@ const HomeScreen: React.FC = () => {
 					</View>
 				</View>
 			)}
+
+			{/* Sorting modal */}
 			<Modal isVisible={isModalVisible}>
 				<TouchableOpacity
 					style={{

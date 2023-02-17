@@ -7,6 +7,7 @@ export const styles = StyleSheet.create<any>({
 		padding: 10,
 		marginTop: "10%",
 		backgroundColor: "#f7f4f2",
+		position: "relative",
 	},
 	button: {
 		alignItems: "center",
