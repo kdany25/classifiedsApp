@@ -7,6 +7,7 @@ import ProductPage from "./screens/product/ProductPage";
 import CreateProduct from "./screens/create-Product/CreateProduct";
 import { store } from "./store";
 import { Provider } from "react-redux";
+import SignUp from "./screens/signup/SIgnUp";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,13 @@ export default function App() {
 						<Stack.Screen
 							name="CreateProduct"
 							component={CreateProduct}
+							options={{
+								headerShown: false,
+							}}
+						/>
+						<Stack.Screen
+							name="Signup"
+							component={SignUp}
 							options={{
 								headerShown: false,
 							}}
