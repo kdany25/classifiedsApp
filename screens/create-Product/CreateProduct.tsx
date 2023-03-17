@@ -18,6 +18,9 @@ import { useSelector } from "react-redux";
 import Toast from "react-native-toast-message";
 import * as ImagePicker from "expo-image-picker";
 
+//Components
+import LoadingIndicator from "../../components/shared/LoadingIndicator";
+
 //styles
 import { styles } from "./createProduct.styles";
 
@@ -32,6 +35,8 @@ import {
 	HomeIcon,
 	PlusCircleIcon,
 	UserCircleIcon,
+	ArrowUpTrayIcon,
+	CheckCircleIcon,
 } from "react-native-heroicons/outline";
 import { CalendarDaysIcon, PhotoIcon } from "react-native-heroicons/solid";
 
@@ -40,7 +45,7 @@ import { uploadImage } from "../../helper";
 
 const CreateProduct: React.FC = () => {
 	//States
-	const [inputs, setInputs] = useState({});
+	const [inputs, setInputs] = useState<InewProduct | any>({});
 	const [isPickerShow, setIsPickerShow] = useState(false);
 	const [date, setDate] = useState(new Date(Date.now()));
 	const [value, setValue] = useState(null);
@@ -48,6 +53,7 @@ const CreateProduct: React.FC = () => {
 	const [categories, setCategories] = useState([]);
 	const [image, setImage] = useState<any>(null);
 	const [base64Image, setBase64Image] = useState<any>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	//navigation
 	const navigation = useNavigation();
@@ -63,12 +69,12 @@ const CreateProduct: React.FC = () => {
 	//handle for Datepicker
 	const onChange = (event: any, value: any) => {
 		setDate(value);
-		setIsPickerShow(false)
+		setIsPickerShow(false);
 		handleChange("manufacture_date", date);
 	};
 	//Onchange for product form
 	const handleChange = (key: string, e: any) => {
-		setInputs((prev) => {
+		setInputs((prev: any) => {
 			return { ...prev, [key]: e };
 		});
 	};
@@ -78,7 +84,18 @@ const CreateProduct: React.FC = () => {
 		Toast.show({
 			type: "success",
 			text1: "Message",
-			text2: "Product created successful",
+			text2: "Product created",
+			autoHide: true,
+			visibilityTime: 3000,
+		});
+	};
+
+	//success taost
+	const showSuccessMessageForImage = () => {
+		Toast.show({
+			type: "success",
+			text1: "Message",
+			text2: "Image uploaded",
 			autoHide: true,
 			visibilityTime: 3000,
 		});
@@ -90,6 +107,17 @@ const CreateProduct: React.FC = () => {
 			type: "error",
 			text1: "Message",
 			text2: "Error, please try again and check the inputs ",
+			autoHide: true,
+			visibilityTime: 3000,
+		});
+	};
+
+	//error taost
+	const showErrorMessageForImage = () => {
+		Toast.show({
+			type: "error",
+			text1: "Message",
+			text2: "Error, Image is too big please try image less than 4MB",
 			autoHide: true,
 			visibilityTime: 3000,
 		});
@@ -145,16 +173,23 @@ const CreateProduct: React.FC = () => {
 
 	//upload image
 	const getImgurl = async () => {
+		setIsLoading(true);
 		try {
 			const result = await uploadImage(base64Image);
 			handleChange("image", result);
+			if (result) {
+				setIsLoading(false);
+				showSuccessMessageForImage();
+			}
 		} catch (error) {
 			console.log(error);
+			setIsLoading(false);
+			showErrorMessageForImage();
 		}
 	};
 	return (
 		<SafeAreaView style={styles.mainContainer}>
-	{/* <ScrollView> */}
+			{/* <ScrollView> */}
 
 			{/* toast notification */}
 			<Toast />
@@ -275,22 +310,55 @@ const CreateProduct: React.FC = () => {
 								source={{ uri: image }}
 								style={{ height: 70, width: 70 }}
 							/>
-
-							<TouchableOpacity
-								style={{
-									flexDirection: "row",
-									alignItems: "center",
-									marginTop: "5%",
-								}}
-								onPress={getImgurl}
-							>
-								<PhotoIcon color={"#ff833c"} />
-								<Text
-									style={{ fontSize: 10, color: "#ff833c" }}
-								>
-									Upload it
-								</Text>
-							</TouchableOpacity>
+							{isLoading ? (
+								<LoadingIndicator />
+							) : (
+								<>
+									{inputs.image ? (
+										<TouchableOpacity
+											style={{
+												flexDirection: "row",
+												alignItems: "center",
+												marginTop: "5%",
+											}}
+											onPress={getImgurl}
+										>
+											<CheckCircleIcon
+												color={"#ff833c"}
+											/>
+											<Text
+												style={{
+													fontSize: 10,
+													color: "#ff833c",
+												}}
+											>
+												Image saved
+											</Text>
+										</TouchableOpacity>
+									) : (
+										<TouchableOpacity
+											style={{
+												flexDirection: "row",
+												alignItems: "center",
+												marginTop: "5%",
+											}}
+											onPress={getImgurl}
+										>
+											<ArrowUpTrayIcon
+												color={"#a3a1a0"}
+											/>
+											<Text
+												style={{
+													fontSize: 10,
+													color: "#a3a1a0",
+												}}
+											>
+												CLick here toUpload it
+											</Text>
+										</TouchableOpacity>
+									)}
+								</>
+							)}
 						</>
 					) : (
 						<TouchableOpacity

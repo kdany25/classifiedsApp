@@ -96,6 +96,7 @@ const LoginScreen: React.FC = () => {
 								placeholder="Enter Password"
 								onChangeText={(email) => setPassword(email)}
 								autoCapitalize="none"
+								secureTextEntry={true}
 							/>
 						</View>
 					</View>
