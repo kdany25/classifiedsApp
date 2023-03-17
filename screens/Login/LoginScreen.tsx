@@ -13,7 +13,7 @@ import Toast from "react-native-toast-message";
 import { SocialIcon } from "react-native-elements";
 
 //api
-import { login } from "../../redux/apiCalls";
+import { login } from "../../utils/apiCalls";
 
 //Hook
 import { useDispatch } from "react-redux";

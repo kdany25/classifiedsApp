@@ -41,7 +41,7 @@ import {
 import { CalendarDaysIcon, PhotoIcon } from "react-native-heroicons/solid";
 
 //Helper
-import { uploadImage } from "../../helper";
+import { uploadImage } from "../../utils/imageHelper";
 
 const CreateProduct: React.FC = () => {
 	//States
