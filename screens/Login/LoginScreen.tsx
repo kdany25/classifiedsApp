@@ -22,13 +22,18 @@ import { useNavigation } from "@react-navigation/native";
 
 //Styles
 import { styles } from "./LoginScreen.style";
+import LoadingIndicator from "../../components/shared/LoadingIndicator";
 
 const LoginScreen: React.FC = () => {
 	//states
 	const [email, setEmail] = useState<string>();
 	const [password, setPassword] = useState<string>();
 	const [signPlaced, setSignedPlaced] = useState(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	//navigation
 	const navigation = useNavigation();
+
+	//getting a user from state
 	const user = useSelector((state: any) => state.user.currentUser?._id);
 
 	//hide header
@@ -40,6 +45,7 @@ const LoginScreen: React.FC = () => {
 	const dispatch = useDispatch();
 
 	const handleClick = () => {
+		setIsLoading(true);
 		login(dispatch, { email, password });
 		setSignedPlaced(true);
 	};
@@ -58,6 +64,7 @@ const LoginScreen: React.FC = () => {
 	//navigate after logging in
 	useEffect(() => {
 		if (user) {
+			setIsLoading(false);
 			//@ts-ignore
 			navigation.navigate("Home");
 		}
@@ -103,15 +110,19 @@ const LoginScreen: React.FC = () => {
 				</View>
 				{/* Sign in button */}
 				<View style={{ alignItems: "center" }}>
-					<Pressable
-						style={styles.button}
-						//@ts-ignore
-						onPress={handleClick}
-					>
-						<Text style={styles.text}>{"Sign in"}</Text>
-					</Pressable>
+					{isLoading ? (
+						<LoadingIndicator />
+					) : (
+						<Pressable
+							style={styles.button}
+							//@ts-ignore
+							onPress={handleClick}
+						>
+							<Text style={styles.text}>{"Sign in"}</Text>
+						</Pressable>
+					)}
 				</View>
-				<Text style={styles.signInText}>Sign In with this</Text>
+				<Text style={styles.signInText}></Text>
 
 				{/* SignUp */}
 
@@ -120,7 +131,7 @@ const LoginScreen: React.FC = () => {
 					onPress={() => navigation.navigate("Signup")}
 				>
 					<Text style={styles.signUpText}>
-						Don't have an account? Signup
+						Don't have an account? click here to Signup
 					</Text>
 				</TouchableOpacity>
 

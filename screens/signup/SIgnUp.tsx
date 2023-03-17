@@ -1,12 +1,6 @@
 //Dependencies
 import React, { useState } from "react";
-import {
-	View,
-	Text,
-	SafeAreaView,
-	TextInput,
-	Pressable,
-} from "react-native";
+import { View, Text, SafeAreaView, TextInput, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import Toast from "react-native-toast-message";
@@ -16,10 +10,12 @@ import { styles } from "./Signup.styles";
 
 //interfaces
 import { IuserProps } from "../../interfaces/signUp.interface";
+import LoadingIndicator from "../../components/shared/LoadingIndicator";
 
 const SignUp: React.FC = () => {
 	//States
 	const [inputs, setInputs] = useState({});
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	//navigation
 	const navigation = useNavigation();
@@ -55,6 +51,7 @@ const SignUp: React.FC = () => {
 
 	//Api call for creating product
 	const onSave = async () => {
+		setIsLoading(true);
 		await axios
 			.post<IuserProps>(
 				"https://classfiedbackend.herokuapp.com/api/auth/register",
@@ -62,12 +59,14 @@ const SignUp: React.FC = () => {
 			)
 			.then((res) => {
 				if (res.data.firstName) {
+					setIsLoading(false);
 					showSuccessMessage();
 					//@ts-ignore
 					setTimeout(() => navigation.navigate("Login"), 3000);
 				}
 			})
 			.catch((error) => {
+				setIsLoading(false);
 				console.log(inputs);
 				showErrorMessage();
 			});
@@ -149,14 +148,20 @@ const SignUp: React.FC = () => {
 
 					{/* Creating account button */}
 					<View style={{ marginTop: "10%" }}>
-						<Pressable
-							style={styles.button}
-							onPress={() => {
-								onSave();
-							}}
-						>
-							<Text style={{ color: "#fff" }}>{"Sign Up"}</Text>
-						</Pressable>
+						{isLoading ? (
+							<LoadingIndicator />
+						) : (
+							<Pressable
+								style={styles.button}
+								onPress={() => {
+									onSave();
+								}}
+							>
+								<Text style={{ color: "#fff" }}>
+									{"Sign Up"}
+								</Text>
+							</Pressable>
+						)}
 					</View>
 				</View>
 			</View>
