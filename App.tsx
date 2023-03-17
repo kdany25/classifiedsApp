@@ -9,6 +9,7 @@ import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import SignUp from "./screens/signup/SIgnUp";
 import UserProfile from "./screens/userProfile/UserProfile";
+import { RootStackParamList } from "./interfaces/RootStack";
 
 const Stack = createNativeStackNavigator();
 

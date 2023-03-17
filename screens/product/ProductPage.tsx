@@ -31,14 +31,8 @@ const ProductPage: React.FC = () => {
 
 	//receiving props
 	const {
-		params: {
-			_id,
-			name,
-			price,
-			short_description,
-			image,
-			manufacture_date,
-			category,
+		//@ts-ignore
+		params: {	_id, name, price, short_description, image, manufacture_date, category,
 		},
 	} = useRoute();
 

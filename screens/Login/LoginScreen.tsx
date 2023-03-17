@@ -113,10 +113,12 @@ const LoginScreen: React.FC = () => {
 				</View>
 				<Text style={styles.signInText}>Sign In with this</Text>
 
-				
-
 				{/* SignUp */}
-				<TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+
+				<TouchableOpacity
+					//@ts-ignore
+					onPress={() => navigation.navigate("Signup")}
+				>
 					<Text style={styles.signUpText}>
 						Don't have an account? Signup
 					</Text>

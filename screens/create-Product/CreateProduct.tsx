@@ -7,7 +7,6 @@ import {
 	TextInput,
 	Pressable,
 	TouchableOpacity,
-	Platform,
 	Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -451,6 +450,7 @@ const CreateProduct: React.FC = () => {
 								alignItems: "center",
 							}}
 							onPress={() =>
+								//@ts-ignore
 								navigation.navigate("UserProfile", {
 									email,
 									phone,

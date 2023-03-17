@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
+import { StackScreenProps } from "@react-navigation/stack";
 
 //Component
 import Product from "../../components/product/Product";
@@ -18,6 +19,7 @@ import Modal from "react-native-modal";
 //interfaces
 import { productProps } from "../../interfaces/product.interface";
 import { Iproduct } from "../../interfaces/Home.interface";
+import { RootStackParamList } from "../../interfaces/RootStack";
 
 //Hooks
 import { useNavigation } from "@react-navigation/native";
@@ -38,6 +40,8 @@ import {
 
 //styles
 import { styles } from "./Home.styles";
+
+export type HomeProps = StackScreenProps<RootStackParamList, "Home">;
 
 const HomeScreen: React.FC = () => {
 	//states
@@ -228,6 +232,7 @@ const HomeScreen: React.FC = () => {
 								alignItems: "center",
 							}}
 							onPress={() =>
+								//@ts-ignore
 								navigation.navigate("UserProfile", {
 									email,
 									phone,

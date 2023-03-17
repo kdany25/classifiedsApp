@@ -13,6 +13,7 @@ import {
 const UserProfile: React.FC = () => {
 	//receiving props
 	const {
+		//@ts-ignore
 		params: { phone, email, image },
 	} = useRoute();
 
@@ -48,6 +49,7 @@ const UserProfile: React.FC = () => {
 							flexDirection: "column",
 							alignItems: "center",
 						}}
+						//@ts-ignore
 						onPress={() => navigation.navigate("Home")}
 					>
 						<HomeIcon color="#a3a1a0" />
@@ -74,6 +76,7 @@ const UserProfile: React.FC = () => {
 							alignItems: "center",
 						}}
 						onPress={() =>
+							//@ts-ignore
 							navigation.navigate("UserProfile", {
 								email,
 								phone,
