@@ -48,6 +48,8 @@ const HomeScreen: React.FC = () => {
 
 	//get user
 	const user = useSelector((state: any) => state.user.currentUser?._id);
+	const email = useSelector((state: any) => state.user.currentUser.email);
+	const phone = useSelector((state: any) => state.user.currentUser.phone);
 
 	//navigation
 	const navigation = useNavigation();
@@ -225,6 +227,13 @@ const HomeScreen: React.FC = () => {
 								flexDirection: "column",
 								alignItems: "center",
 							}}
+							onPress={() =>
+								navigation.navigate("UserProfile", {
+									email,
+									phone,
+									image: "https://i.ibb.co/Wn7zMVf/Screen-Shot-2023-02-16-at-09-07-33.png",
+								})
+							}
 						>
 							<UserCircleIcon color={"#a3a1a0"} />
 							<Text style={{ fontSize: 10, color: "#a3a1a0" }}>
