@@ -46,14 +46,15 @@ import { uploadImage } from "../../helper";
 const CreateProduct: React.FC = () => {
 	//States
 	const [inputs, setInputs] = useState<InewProduct | any>({});
-	const [isPickerShow, setIsPickerShow] = useState(false);
-	const [date, setDate] = useState(new Date(Date.now()));
 	const [value, setValue] = useState(null);
 	const [isFocus, setIsFocus] = useState(false);
 	const [categories, setCategories] = useState([]);
 	const [image, setImage] = useState<any>(null);
 	const [base64Image, setBase64Image] = useState<any>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [chosenDate, setChosenDate] = useState(new Date());
+	const [showDatePicker, setShowDatePicker] = useState(false);
+	const [isSaving, setIsSaving] = useState<boolean>(false);
 
 	//navigation
 	const navigation = useNavigation();
@@ -61,17 +62,6 @@ const CreateProduct: React.FC = () => {
 	//selecting user from state
 	const user = useSelector((state: any) => state.user.currentUser?._id);
 
-	//Method to show DatePicker
-	const showPicker = () => {
-		setIsPickerShow(true);
-	};
-
-	//handle for Datepicker
-	const onChange = (event: any, value: any) => {
-		setDate(value);
-		setIsPickerShow(false);
-		handleChange("manufacture_date", date);
-	};
 	//Onchange for product form
 	const handleChange = (key: string, e: any) => {
 		setInputs((prev: any) => {
@@ -125,6 +115,7 @@ const CreateProduct: React.FC = () => {
 
 	//Api call for creating product
 	const onSave = async () => {
+		setIsSaving(true);
 		await axios
 			.post<InewProduct>(
 				"https://classfiedbackend.herokuapp.com/api/product",
@@ -133,10 +124,12 @@ const CreateProduct: React.FC = () => {
 			.then((res) => {
 				if (res.data.name) {
 					showSuccessMessage();
+					setIsSaving(false);
 				}
 			})
 			.catch((error) => {
 				showErrorMessage();
+				setIsSaving(false);
 			});
 	};
 
@@ -156,8 +149,8 @@ const CreateProduct: React.FC = () => {
 			});
 	}, []);
 
+	//Method for pick image from local storage
 	const pickImage = async () => {
-		// No permissions request is necessary for launching the image library
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
 			allowsEditing: true,
@@ -187,17 +180,24 @@ const CreateProduct: React.FC = () => {
 			showErrorMessageForImage();
 		}
 	};
+	//handle date selection
+	const handleDateChange = (event: any, date: any) => {
+		setShowDatePicker(true);
+		if (date) {
+			setChosenDate(date);
+			handleChange("manufacture_date", date);
+		}
+	};
+
 	return (
 		<SafeAreaView style={styles.mainContainer}>
-			{/* <ScrollView> */}
-
 			{/* toast notification */}
 			<Toast />
 			<View
 				style={{
 					width: "80%",
 					flexDirection: "column",
-					marginTop: "15%",
+					marginTop: "5%",
 				}}
 			>
 				{/* Title */}
@@ -271,14 +271,14 @@ const CreateProduct: React.FC = () => {
 					</View>
 
 					{/* Date picker button */}
-					{!isPickerShow && (
+					{!showDatePicker && (
 						<TouchableOpacity
 							style={{
 								flexDirection: "row",
 								alignItems: "center",
 								marginTop: "2%",
 							}}
-							onPress={showPicker}
+							onPress={() => setShowDatePicker(true)}
 						>
 							<CalendarDaysIcon color={"#a3a1a0"} />
 							<Text style={{ fontSize: 10, color: "#a3a1a0" }}>
@@ -286,21 +286,23 @@ const CreateProduct: React.FC = () => {
 							</Text>
 						</TouchableOpacity>
 					)}
-					<TouchableOpacity></TouchableOpacity>
 
 					{/* Date picker */}
-					{isPickerShow && (
+					{showDatePicker && (
 						<DateTimePicker
-							value={date}
-							mode={"date"}
-							display={
-								Platform.OS === "ios" ? "spinner" : "default"
-							}
+							value={chosenDate}
+							mode="date"
 							is24Hour={true}
-							onChange={onChange}
-							style={styles.datePicker}
+							display="default"
+							onChange={handleDateChange}
+							style={{
+								alignSelf: "flex-start",
+								marginVertical: 3,
+							}}
 						/>
 					)}
+
+					{/* Image selection */}
 					{image ? (
 						<>
 							<View
@@ -353,7 +355,7 @@ const CreateProduct: React.FC = () => {
 													color: "#a3a1a0",
 												}}
 											>
-												CLick here toUpload it
+												CLick here to Upload it
 											</Text>
 										</TouchableOpacity>
 									)}
@@ -379,16 +381,20 @@ const CreateProduct: React.FC = () => {
 
 				{/* Creating product button */}
 				<View style={{ marginTop: "10%" }}>
-					<Pressable
-						style={styles.button}
-						onPress={() => {
-							onSave();
-						}}
-					>
-						<Text style={{ color: "#fff" }}>
-							{"Create Product"}
-						</Text>
-					</Pressable>
+					{isSaving ? (
+						<LoadingIndicator />
+					) : (
+						<Pressable
+							style={styles.button}
+							onPress={() => {
+								onSave();
+							}}
+						>
+							<Text style={{ color: "#fff" }}>
+								{"Create Product"}
+							</Text>
+						</Pressable>
+					)}
 				</View>
 			</View>
 
@@ -451,7 +457,6 @@ const CreateProduct: React.FC = () => {
 					</View>
 				</View>
 			)}
-			{/* </ScrollView> */}
 		</SafeAreaView>
 	);
 };
