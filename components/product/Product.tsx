@@ -51,7 +51,7 @@ const Product: React.FC<productProps> = ({
 						<Currency quantity={price} currency="USD" />
 					</Text>
 					<Text style={styles.manufacture_date}>
-						{manufacture_date}
+						{manufacture_date.slice(0, 10)}
 					</Text>
 				</View>
 				{/*Go to product button */}

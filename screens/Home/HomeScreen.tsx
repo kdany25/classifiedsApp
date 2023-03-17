@@ -40,6 +40,7 @@ import {
 
 //styles
 import { styles } from "./Home.styles";
+import LoadingIndicator from "../../components/shared/LoadingIndicator";
 
 export type HomeProps = StackScreenProps<RootStackParamList, "Home">;
 
@@ -49,24 +50,33 @@ const HomeScreen: React.FC = () => {
 	const [filterQuery, setfilterQuery] = useState<string>();
 	const [filteredData, setFilteredData] = useState<Iproduct[]>([]);
 	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	//get user
 	const user = useSelector((state: any) => state.user.currentUser?._id);
-	const email = useSelector((state: any) => state.user.currentUser.email);
-	const phone = useSelector((state: any) => state.user.currentUser.phone);
+	const email = useSelector((state: any) => state.user.currentUser?.email);
+	const phone = useSelector((state: any) => state.user.currentUser?.phone);
 
 	//navigation
 	const navigation = useNavigation();
 
 	//Product api call
-	useEffect(() => {
+	const fetchProduct = () => {
+		setIsLoading(true);
 		axios
 			.get<Iproduct[]>(
 				"https://classfiedbackend.herokuapp.com/api/product"
 			)
 			.then((response: AxiosResponse) => {
 				setProducts(response.data);
+				setIsLoading(false);
 			});
+	};
+	useEffect(() => {
+		const interval = setInterval(() => {
+			fetchProduct();
+		}, 5000);
+		return () => clearInterval(interval);
 	}, []);
 
 	//searching through products

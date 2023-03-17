@@ -60,8 +60,8 @@ const CreateProduct: React.FC = () => {
 
 	//selecting user from state
 	const user = useSelector((state: any) => state.user.currentUser?._id);
-	const email = useSelector((state: any) => state.user.currentUser.email);
-	const phone = useSelector((state: any) => state.user.currentUser.phone);
+	const email = useSelector((state: any) => state.user.currentUser?.email);
+	const phone = useSelector((state: any) => state.user.currentUser?.phone);
 
 	//Onchange for product form
 	const handleChange = (key: string, e: any) => {
