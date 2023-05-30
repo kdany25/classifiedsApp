@@ -65,7 +65,7 @@ const HomeScreen: React.FC = () => {
 		setIsLoading(true);
 		axios
 			.get<Iproduct[]>(
-				"https://classfiedbackend.herokuapp.com/api/product"
+				"http://localhost:7001/api/product"
 			)
 			.then((response: AxiosResponse) => {
 				setProducts(response.data);

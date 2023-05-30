@@ -119,7 +119,7 @@ const CreateProduct: React.FC = () => {
 		setIsSaving(true);
 		await axios
 			.post<InewProduct>(
-				"https://classfiedbackend.herokuapp.com/api/product",
+				"http://localhost:7001/api/product",
 				inputs
 			)
 			.then((res) => {
@@ -143,7 +143,7 @@ const CreateProduct: React.FC = () => {
 	useEffect(() => {
 		axios
 			.get<Icategory[]>(
-				"https://classfiedbackend.herokuapp.com/api/category"
+				"http://localhost:7001/api/category"
 			)
 			.then((response: AxiosResponse) => {
 				setCategories(response.data);

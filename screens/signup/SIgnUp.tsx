@@ -54,7 +54,7 @@ const SignUp: React.FC = () => {
 		setIsLoading(true);
 		await axios
 			.post<IuserProps>(
-				"https://classfiedbackend.herokuapp.com/api/auth/register",
+				"http://localhost:7001/api/auth/register",
 				inputs
 			)
 			.then((res) => {
